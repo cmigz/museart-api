@@ -20,3 +20,4 @@ module.exports = require('lib/wiring/routes')
 // all routes created
 .post('/drawings', 'drawings#create')
 .get('/drawings', 'drawings#index')
+.delete('/drawings/:id', 'drawings#destroy')

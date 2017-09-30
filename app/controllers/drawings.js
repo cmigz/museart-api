@@ -27,9 +27,16 @@ const create = (req, res, next) => {
     .catch(next)
 }
 
+const destroy = (req, res, next) => {
+  req.drawing.remove()
+    .then(() => res.sendStatus(204))
+    .catch(next)
+}
+
 module.exports = controller({
   index,
-  create
+  create,
+  destroy
 }, {
   before: [
     {method: setModel(Drawing), only: ['destroy']}
