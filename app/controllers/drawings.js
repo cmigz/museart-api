@@ -60,11 +60,41 @@ const userDrawings = (req, res, next) => {
 // }
 // ---
 
+const update = (req, res, next) => {
+  Drawing.findOne({
+    _id: req.params.id
+    // token: req.user.token
+  }).then(drawing => {
+    drawing.imageLink = req.body.drawing.imageLink
+    drawing.songTitle = req.body.drawing.songTitle
+    drawing.songArtist = req.body.drawing.songArtist
+    drawing.lyrics = req.body.drawing.lyrics
+    drawing.songLink = req.body.drawing.songLink
+    return drawing.save()
+  }).then((drawing) =>
+  res.sendStatus(200)
+).catch(next)
+}
+
+// Working with just updating songTitle
+// const update = (req, res, next) => {
+//   Drawing.findOne({
+//     _id: req.params.id
+//     // token: req.user.token
+//   }).then(drawing => {
+//     drawing.songTitle = req.body.drawing.songTitle
+//     return drawing.save()
+//   }).then((drawing) =>
+//   res.sendStatus(200)
+// ).catch(next)
+// }
+
 module.exports = controller({
   index,
   create,
   destroy,
-  userDrawings
+  userDrawings,
+  update
 }, {
   before: [
     {method: setModel(Drawing), only: ['destroy']}
