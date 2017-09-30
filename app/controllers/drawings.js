@@ -33,10 +33,38 @@ const destroy = (req, res, next) => {
     .catch(next)
 }
 
+const userDrawings = (req, res, next) => {
+  Drawing.find({
+    userId: req.params.userId
+    // token: req.user.token
+  })
+  .then(drawings => res.json({
+    drawings: drawings.map((drawing) =>
+      drawing.toJSON()
+  )
+  }))
+}
+
+// --- Working userDrawings
+// Gets user drawings but cant rean token
+// const userDrawings = (req, res, next) => {
+//   Drawing.find({
+//     userId: req.params.userId
+//     // token: req.user.token
+//   })
+//   .then(drawings => res.json({
+//     drawings: drawings.map((drawing) =>
+//       drawing.toJSON()
+//   )
+//   }))
+// }
+// ---
+
 module.exports = controller({
   index,
   create,
-  destroy
+  destroy,
+  userDrawings
 }, {
   before: [
     {method: setModel(Drawing), only: ['destroy']}
